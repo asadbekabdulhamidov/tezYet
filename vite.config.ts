@@ -12,5 +12,6 @@ export default defineConfig({
         secure: true,
       },
     },
+    allowedHosts: ["hydrated-external-trapezoid.ngrok-free.dev"],
   },
 });
