@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import type { DriverAvailableOrder } from "../../../types/order";
 import { formatSum } from "../../../shared/formatSum";
+import { Loader } from "../../../shared/ui/Loader";
 
 function googleMapsHref(o: DriverAvailableOrder): string {
   if (o.from_lat && o.from_lon && o.to_lat && o.to_lon) {
@@ -84,9 +85,16 @@ export function DriverOrderCard({ order, onAccept, accepting }: Props) {
           type="button"
           disabled={accepting}
           onClick={() => onAccept(order.id)}
-          className="flex-1 rounded-xl bg-[#0F3460] py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#0F3460] py-2.5 text-sm font-semibold text-white disabled:opacity-60"
         >
-          {accepting ? "…" : "Qabul qilish"}
+          {accepting ? (
+            <>
+              <Loader variant="button" tone="onDark" />
+              Yuklanmoqda…
+            </>
+          ) : (
+            "Qabul qilish"
+          )}
         </button>
       </div>
 
@@ -99,30 +107,5 @@ export function DriverOrderCard({ order, onAccept, accepting }: Props) {
         Xaritada ko&apos;rish
       </a>
     </article>
-  );
-}
-
-function SkeletonCard() {
-  return (
-    <div className="animate-pulse space-y-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
-      <div className="flex gap-3">
-        <div className="h-9 w-9 rounded-xl bg-slate-200" />
-        <div className="flex-1 space-y-2">
-          <div className="h-4 w-24 rounded bg-slate-200" />
-          <div className="h-3 w-32 rounded bg-slate-100" />
-        </div>
-      </div>
-      <div className="h-3 w-full rounded bg-slate-100" />
-      <div className="h-3 max-w-[90%] rounded bg-slate-100" />
-    </div>
-  );
-}
-
-export function DriverOrdersSkeleton() {
-  return (
-    <div className="space-y-3">
-      <SkeletonCard />
-      <SkeletonCard />
-    </div>
   );
 }

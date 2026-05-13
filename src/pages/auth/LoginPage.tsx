@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendOtp } from "../../services/auth.service";
 import { formatPhone } from "../../shared/formatPhone";
+import { Loader } from "../../shared/ui/Loader";
 import { useAppDispatch } from "../../store/hooks";
 import { setTokens, clearAuth } from "../../store/auth/authSlice";
 
@@ -165,7 +166,7 @@ export default function LoginPage() {
             >
               {loading ? (
                 <>
-                  <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                  <Loader variant="button" tone="onDark" />
                   Yuklanmoqda...
                 </>
               ) : (

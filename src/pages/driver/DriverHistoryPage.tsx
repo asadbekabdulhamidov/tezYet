@@ -1,5 +1,1 @@
-function DriverHistoryPage() {
-  return <div>DriverHistoryPage</div>;
-}
-
-export default DriverHistoryPage;
+export { default } from "../../features/driverHistory/ui/DriverHistoryPage";

@@ -1,5 +1,6 @@
 import type { OrderDetail, OrderStatus } from "../../../types/orderDetail";
 import { formatSum } from "../../../shared/formatSum";
+import { Loader } from "../../../shared/ui/Loader";
 import {
   etaMinutesLabel,
   parseKm,
@@ -209,9 +210,16 @@ export function ActionBar({
           type="button"
           disabled={busy}
           onClick={onStart}
-          className="flex w-full items-center justify-center rounded-2xl bg-[#0F3460] py-4 text-base font-bold text-white shadow-[0_8px_24px_rgba(15,52,96,0.35)] active:scale-[0.99] disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0F3460] py-4 text-base font-bold text-white shadow-[0_8px_24px_rgba(15,52,96,0.35)] active:scale-[0.99] disabled:opacity-60"
         >
-          {busy ? "…" : "Safarni boshlash"}
+          {busy ? (
+            <>
+              <Loader variant="button" tone="onDark" />
+              Yuklanmoqda…
+            </>
+          ) : (
+            "Safarni boshlash"
+          )}
         </button>
       ) : null}
       {status === "in_progress" ? (
@@ -219,9 +227,16 @@ export function ActionBar({
           type="button"
           disabled={busy}
           onClick={onComplete}
-          className="flex w-full items-center justify-center rounded-2xl bg-[#28A745] py-4 text-base font-bold text-white shadow-[0_8px_24px_rgba(40,167,69,0.35)] active:scale-[0.99] disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#28A745] py-4 text-base font-bold text-white shadow-[0_8px_24px_rgba(40,167,69,0.35)] active:scale-[0.99] disabled:opacity-60"
         >
-          {busy ? "…" : "Safarni yakunlash"}
+          {busy ? (
+            <>
+              <Loader variant="button" tone="onDark" />
+              Yuklanmoqda…
+            </>
+          ) : (
+            "Safarni yakunlash"
+          )}
         </button>
       ) : null}
       {status === "accepted" || status === "in_progress" ? (

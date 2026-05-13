@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { registerOtp, sendOtp, verifyOtp } from "../../services/auth.service";
+import { Loader } from "../../shared/ui/Loader";
 import { useAppDispatch } from "../../store/hooks";
 import { setTokens } from "../../store/auth/authSlice";
 
@@ -192,7 +193,7 @@ export default function OtpPage() {
             >
               {loading ? (
                 <>
-                  <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                  <Loader variant="button" tone="onDark" />
                   Tekshirilmoqda...
                 </>
               ) : (

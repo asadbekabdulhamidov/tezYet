@@ -13,6 +13,7 @@ import {
   writeDriverProfileCache,
   clearDriverProfileCache,
 } from "../../shared/driverProfileCache";
+import { Loader } from "../../shared/ui/Loader";
 
 const MOCK_REFRESH = "dev-refresh-token";
 const MOCK_ACCESS = "dev-access-token";
@@ -62,22 +63,6 @@ function MenuRow({
         ›
       </span>
     </button>
-  );
-}
-
-function ProfileSkeleton() {
-  return (
-    <div className="space-y-4 px-4 pb-8 pt-2">
-      <div className="h-8 w-48 animate-pulse rounded-lg bg-slate-200" />
-      <div className="h-40 animate-pulse rounded-2xl bg-slate-200" />
-      <div className="grid grid-cols-3 gap-2">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="h-20 animate-pulse rounded-xl bg-slate-200" />
-        ))}
-      </div>
-      <div className="h-32 animate-pulse rounded-2xl bg-slate-200" />
-      <div className="h-48 animate-pulse rounded-2xl bg-slate-200" />
-    </div>
   );
 }
 
@@ -269,7 +254,13 @@ export default function DriverProfilePage() {
       </header>
 
       {loading && online ? (
-        <ProfileSkeleton />
+        <div className="px-4 pb-8 pt-4">
+          <Loader
+            variant="section"
+            className="min-h-[55vh] border-0 bg-transparent shadow-none"
+            label="Profil yuklanmoqda…"
+          />
+        </div>
       ) : error && !displayMe ? (
         <div className="mx-auto max-w-lg px-4 pt-6">
           <div className="rounded-2xl border border-red-100 bg-red-50 p-4 text-sm text-red-800">
@@ -335,7 +326,14 @@ export default function DriverProfilePage() {
             onClick={() => void onLogout()}
             className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 py-3.5 text-sm font-bold text-[#DC3545] disabled:opacity-60"
           >
-            🚪 Chiqish
+            {logoutBusy ? (
+              <>
+                <Loader variant="button" tone="default" />
+                Chiqilmoqda…
+              </>
+            ) : (
+              <>🚪 Chiqish</>
+            )}
           </button>
         </div>
       ) : displayMe && displayProfile ? (
@@ -481,7 +479,14 @@ export default function DriverProfilePage() {
             onClick={() => void onLogout()}
             className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 py-3.5 text-sm font-bold text-[#DC3545] disabled:opacity-60"
           >
-            🚪 Chiqish
+            {logoutBusy ? (
+              <>
+                <Loader variant="button" tone="default" />
+                Chiqilmoqda…
+              </>
+            ) : (
+              <>🚪 Chiqish</>
+            )}
           </button>
         </div>
       ) : (
@@ -523,9 +528,16 @@ export default function DriverProfilePage() {
                 type="button"
                 disabled={editBusy}
                 onClick={() => void saveEdit()}
-                className="flex-1 rounded-xl bg-[#0F3460] py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#0F3460] py-2.5 text-sm font-semibold text-white disabled:opacity-60"
               >
-                {editBusy ? "…" : "Saqlash"}
+                {editBusy ? (
+                  <>
+                    <Loader variant="button" tone="onDark" />
+                    Saqlanmoqda…
+                  </>
+                ) : (
+                  "Saqlash"
+                )}
               </button>
             </div>
           </div>

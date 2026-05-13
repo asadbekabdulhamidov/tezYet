@@ -17,9 +17,9 @@ import type { DriverAvailableOrder } from "../../types/order";
 import { ROUTES } from "../../router/routes";
 import {
   DriverOrderCard,
-  DriverOrdersSkeleton,
 } from "./components/DriverOrderCard";
 import { writeDriverProfileCache } from "../../shared/driverProfileCache";
+import { Loader } from "../../shared/ui/Loader";
 
 const MOCK_ACCESS = "dev-access-token";
 
@@ -65,11 +65,17 @@ function ToggleReady({
       }`}
       aria-label={on ? "Band qilish" : "Men tayyor"}
     >
-      <span
-        className={`absolute top-1 h-6 w-6 rounded-full bg-white shadow transition-all ${
-          on ? "left-7" : "left-1"
-        }`}
-      />
+      {busy ? (
+        <span className="absolute inset-0 flex items-center justify-center">
+          <Loader variant="button" tone="onDark" className="!h-4 !w-4 !border-2" />
+        </span>
+      ) : (
+        <span
+          className={`absolute top-1 h-6 w-6 rounded-full bg-white shadow transition-all ${
+            on ? "left-7" : "left-1"
+          }`}
+        />
+      )}
     </button>
   );
 }
@@ -318,23 +324,11 @@ export default function DriverHomePage() {
 
       <main className="mx-auto max-w-lg px-4 pb-6 pt-4">
         {bootstrapping ? (
-          <div className="space-y-4">
-            <div className="h-4 max-w-[70%] animate-pulse rounded bg-slate-200" />
-            <div className="h-24 animate-pulse rounded-2xl bg-slate-200" />
-            <div className="grid grid-cols-3 gap-2">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="h-16 animate-pulse rounded-xl bg-slate-200"
-                />
-              ))}
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="h-4 w-40 animate-pulse rounded bg-slate-200" />
-              <div className="h-3 w-24 animate-pulse rounded bg-slate-100" />
-            </div>
-            <DriverOrdersSkeleton />
-          </div>
+          <Loader
+            variant="section"
+            className="min-h-[50vh] border-0 bg-transparent shadow-none"
+            label="Ma’lumotlar tayyorlanmoqda…"
+          />
         ) : !profile ? (
           <div className="rounded-2xl border border-red-100 bg-red-50 p-4 text-sm text-red-800">
             {listError || "Profil topilmadi."}
@@ -523,9 +517,7 @@ export default function DriverHomePage() {
                       </span>
                     ) : null}
                     {refreshing || showWsHint ? (
-                      <span className="font-medium text-[#1A6BAC]">
-                        Yangilanmoqda…
-                      </span>
+                      <Loader variant="inline" label="Yangilanmoqda…" />
                     ) : null}
                   </div>
                 </div>
@@ -543,7 +535,11 @@ export default function DriverHomePage() {
                 ) : null}
 
                 {refreshing && orders.length === 0 ? (
-                  <DriverOrdersSkeleton />
+                  <Loader
+                    variant="section"
+                    className="min-h-[200px]"
+                    label="Buyurtmalar yuklanmoqda…"
+                  />
                 ) : orders.length === 0 ? (
                   <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-10 text-center text-sm text-slate-500">
                     Hozircha yangi buyurtmalar yo&apos;q. WebSocket va 10 s

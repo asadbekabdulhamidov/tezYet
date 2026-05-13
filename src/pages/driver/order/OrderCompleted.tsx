@@ -1,17 +1,17 @@
 import { useState } from "react";
 import type { OrderDetail } from "../../../types/orderDetail";
 import { formatSum } from "../../../shared/formatSum";
+import { Loader } from "../../../shared/ui/Loader";
 import { parseKm, tripDurationLabel } from "./orderScreenUtils";
 
 export function OrderSkeleton() {
   return (
-    <div className="animate-pulse space-y-3 px-4 pb-28 pt-2">
-      <div className="h-8 w-full rounded-xl bg-slate-200" />
-      <div className="h-[38vh] min-h-[260px] w-full rounded-2xl bg-slate-200" />
-      <div className="-mt-12 h-28 rounded-2xl bg-slate-100 shadow-sm" />
-      <div className="h-36 rounded-2xl bg-slate-100" />
-      <div className="h-24 rounded-2xl bg-slate-100" />
-      <div className="h-40 rounded-2xl bg-slate-100" />
+    <div className="px-4 pb-28 pt-2">
+      <Loader
+        variant="section"
+        className="min-h-[65vh] border-0 bg-transparent shadow-none"
+        label="Buyurtma yuklanmoqda…"
+      />
     </div>
   );
 }

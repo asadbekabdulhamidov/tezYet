@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 import { ROUTES } from "./routes";
 import { RoleGuard } from "./RoleGuard";
 import { DriverLayout } from "../layouts/DriverLayout";
+import { Loader } from "../shared/ui/Loader";
 
 // --- Lazy pages (default export bo‘lgani uchun shunday) ---
 const LoginPage = lazy(() => import("../pages/auth/LoginPage"));
@@ -21,7 +22,9 @@ const DriverProfilePage = lazy(
   () => import("../pages/driver/DriverProfilePage"),
 );
 const DriverOrderPage = lazy(() => import("../pages/driver/DriverOrderPage"));
-const DriverMapPage = lazy(() => import("../pages/driver/DriverMapPage"));
+const DriverMapPage = lazy(
+  () => import("../features/driverMap/ui/DriverMapPage"),
+);
 
 const AdminHomePage = lazy(() => import("../pages/admin/AdminHomePage"));
 const AdminDriversPage = lazy(() => import("../pages/admin/AdminDriversPage"));
@@ -30,9 +33,8 @@ const AdminOrdersPage = lazy(() => import("../pages/admin/AdminOrdersPage"));
 
 const NotFoundPage = lazy(() => import("../pages/not-found/NotFoundPage"));
 
-// --- Simple loader ---
 function PageLoader() {
-  return <div className="p-4">Loading...</div>;
+  return <Loader variant="page" label="Sahifa yuklanmoqda…" />;
 }
 
 const withSuspense = (el: React.ReactNode) => (
