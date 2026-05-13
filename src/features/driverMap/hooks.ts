@@ -172,7 +172,9 @@ export function useDriverLocationSync(
   );
 }
 
-/** Keyingi Redux / kontekst bilan almashtirish mumkin. */
+import { getActiveDemoOrderSnapshot } from "../../dev/driverDemoMocks";
+
+/** Demo session yoki keyingi global store. */
 export function useOptionalActiveOrder(): import("./types").ActiveOrderSnapshot | null {
-  return null;
+  return getActiveDemoOrderSnapshot();
 }

@@ -21,7 +21,7 @@ export function AvailabilityCard({
   busy?: boolean;
 }) {
   return (
-    <div className="pointer-events-auto absolute inset-x-3 bottom-[calc(4.25rem+env(safe-area-inset-bottom)+12px)] z-20 max-w-lg rounded-2xl border border-slate-100/90 bg-white/95 p-4 shadow-[0_8px_32px_rgba(15,52,96,0.12)] backdrop-blur-md">
+    <div className="pointer-events-auto absolute inset-x-3 bottom-[calc(4.25rem+env(safe-area-inset-bottom)+12px)] z-30 max-w-lg rounded-2xl border border-slate-100/90 bg-white/95 p-4 shadow-[0_8px_32px_rgba(15,52,96,0.12)] backdrop-blur-md">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-sm font-semibold text-slate-900">

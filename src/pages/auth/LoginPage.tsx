@@ -5,6 +5,7 @@ import { formatPhone } from "../../shared/formatPhone";
 import { Loader } from "../../shared/ui/Loader";
 import { useAppDispatch } from "../../store/hooks";
 import { setTokens, clearAuth } from "../../store/auth/authSlice";
+import { resetDriverDemoFlow } from "../../dev/driverDemoMocks";
 
 const DEV_MOCK_TOKENS = {
   access: "dev-access-token",
@@ -50,6 +51,9 @@ export default function LoginPage() {
   }
 
   function devLoginAs(role: "client" | "driver" | "admin") {
+    if (role === "driver") {
+      resetDriverDemoFlow();
+    }
     dispatch(
       setTokens({
         ...DEV_MOCK_TOKENS,
@@ -89,8 +93,9 @@ export default function LoginPage() {
                 Dev — SMSsiz
               </div>
               <p className="mt-1 text-xs text-amber-900/90">
-                OTP yuborilmasin: rolni tanlang. Tokenlar mock; API chaqiruvlari
-                401 bersa, baribir UI ko‘rasiz.
+                OTP yuborilmasin: rolni tanlang. Haydovchi rejimida profil va
+                bitta demo-buyurtma (backend shart emas), xarita — OpenStreetMap
+                (internet kerak).
               </p>
               <div className="mt-2 flex flex-wrap gap-2">
                 <button

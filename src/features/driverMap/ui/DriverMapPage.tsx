@@ -13,8 +13,11 @@ import {
 import { ActiveOrderShortcut } from "./ActiveOrderShortcut";
 import { AvailabilityCard } from "./AvailabilityCard";
 import { FloatingControls } from "./FloatingControls";
-import { MapPlaceholder } from "./MapPlaceholder";
+import { OsmMapView } from "./OsmMapView";
 import { MapSkeleton } from "./MapSkeleton";
+
+const DEFAULT_MAP_LAT = 41.2995;
+const DEFAULT_MAP_LON = 69.2401;
 
 function formatClock(d: Date) {
   return d.toLocaleTimeString("uz-UZ", {
@@ -31,7 +34,7 @@ export default function DriverMapPage() {
   const activeOrder = useOptionalActiveOrder();
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [isAvailable, setIsAvailable] = useState(true);
-  const [zoom, setZoom] = useState(1);
+  const [mapZoom, setMapZoom] = useState(15);
 
   useEffect(() => {
     if (offline) {
@@ -79,13 +82,15 @@ export default function DriverMapPage() {
     return "Joylashuv yuborilmoqda…";
   }, [offline, deniedOrUnsupported, isSending]);
 
-  const mapVariant = activeOrder ? "light" : "dark";
+  const mapLat = geo.coords?.lat ?? DEFAULT_MAP_LAT;
+  const mapLon = geo.coords?.lon ?? DEFAULT_MAP_LON;
+  const showUserMarker = !!geo.coords && !deniedOrUnsupported;
 
   const onZoomIn = useCallback(() => {
-    setZoom((z) => Math.min(1.5, Math.round((z + 0.1) * 100) / 100));
+    setMapZoom((z) => Math.min(18, z + 1));
   }, []);
   const onZoomOut = useCallback(() => {
-    setZoom((z) => Math.max(0.75, Math.round((z - 0.1) * 100) / 100));
+    setMapZoom((z) => Math.max(10, z - 1));
   }, []);
 
   return (
@@ -123,23 +128,30 @@ export default function DriverMapPage() {
         ) : (
           <>
             <div
-              className={`relative min-h-[calc(100dvh-11rem)] w-full flex-1 ${
-                deniedOrUnsupported ? "opacity-60" : ""
-              }`}
+              className={`relative min-h-[calc(100dvh-11rem)] w-full flex-1 overflow-hidden ${
+                activeOrder ? "ring-2 ring-[#1A6BAC]/25" : ""
+              } ${deniedOrUnsupported ? "opacity-60" : ""}`}
             >
-              <MapPlaceholder
-                variant={mapVariant}
-                zoom={zoom}
-                coords={geo.coords}
-                showDebugCoords
-              />
+              <div className="absolute inset-0 z-0">
+                <OsmMapView
+                  lat={mapLat}
+                  lon={mapLon}
+                  zoom={mapZoom}
+                  showMarker={showUserMarker}
+                />
+              </div>
+              {geo.coords && !deniedOrUnsupported ? (
+                <p className="pointer-events-none absolute bottom-14 left-2 z-20 max-w-[85%] truncate rounded bg-black/50 px-1.5 py-0.5 font-mono text-[10px] text-white/90">
+                  {geo.coords.lat.toFixed(5)}, {geo.coords.lon.toFixed(5)}
+                </p>
+              ) : null}
             </div>
             {deniedOrUnsupported ? (
               <div className="pointer-events-none absolute inset-0 z-10 bg-slate-900/15" />
             ) : null}
 
             <FloatingControls
-              zoom={zoom}
+              zoom={mapZoom}
               onZoomIn={onZoomIn}
               onZoomOut={onZoomOut}
               onLocate={() => geo.refresh()}
@@ -158,7 +170,7 @@ export default function DriverMapPage() {
                 busy={isSending}
               />
             ) : (
-              <div className="pointer-events-auto absolute inset-x-3 bottom-[calc(4.25rem+env(safe-area-inset-bottom)+12px)] z-20 max-w-lg rounded-2xl border border-amber-100 bg-white p-4 shadow-xl">
+              <div className="pointer-events-auto absolute inset-x-3 bottom-[calc(4.25rem+env(safe-area-inset-bottom)+12px)] z-30 max-w-lg rounded-2xl border border-amber-100 bg-white p-4 shadow-xl">
                 <div className="flex gap-3">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FD7E14]/15 text-xl">
                     📍
