@@ -3,14 +3,14 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 type Role = "client" | "driver" | "admin";
 
-type AuthState = {
+export type AuthState = {
   isAuth: boolean;
   role: Role | null;
   accessToken: string | null;
   refreshToken: string | null;
 };
 
-const initialState: AuthState = {
+export const authInitialState: AuthState = {
   isAuth: false,
   role: null,
   accessToken: null,
@@ -19,7 +19,7 @@ const initialState: AuthState = {
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: authInitialState,
   reducers: {
     setTokens(
       state,

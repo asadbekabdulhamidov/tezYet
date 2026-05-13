@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { ROUTES } from "./routes";
 import { RoleGuard } from "./RoleGuard";
+import { DriverLayout } from "../layouts/DriverLayout";
 
 // --- Lazy pages (default export bo‘lgani uchun shunday) ---
 const LoginPage = lazy(() => import("../pages/auth/LoginPage"));
@@ -20,6 +21,7 @@ const DriverProfilePage = lazy(
   () => import("../pages/driver/DriverProfilePage"),
 );
 const DriverOrderPage = lazy(() => import("../pages/driver/DriverOrderPage"));
+const DriverMapPage = lazy(() => import("../pages/driver/DriverMapPage"));
 
 const AdminHomePage = lazy(() => import("../pages/admin/AdminHomePage"));
 const AdminDriversPage = lazy(() => import("../pages/admin/AdminDriversPage"));
@@ -42,7 +44,7 @@ export const router = createBrowserRouter([
   { path: ROUTES.login, element: withSuspense(<LoginPage />) },
   { path: ROUTES.otp, element: withSuspense(<OtpPage />) },
 
-  // Client
+  // Clienta
   {
     element: <RoleGuard allow={["client"]} />,
     children: [
@@ -57,16 +59,23 @@ export const router = createBrowserRouter([
   {
     element: <RoleGuard allow={["driver"]} />,
     children: [
-      { path: ROUTES.driverHome, element: withSuspense(<DriverHomePage />) },
       {
-        path: ROUTES.driverHistory,
-        element: withSuspense(<DriverHistoryPage />),
+        path: "/driver",
+        element: <DriverLayout />,
+        children: [
+          { index: true, element: withSuspense(<DriverHomePage />) },
+          {
+            path: "history",
+            element: withSuspense(<DriverHistoryPage />),
+          },
+          { path: "map", element: withSuspense(<DriverMapPage />) },
+          {
+            path: "profile",
+            element: withSuspense(<DriverProfilePage />),
+          },
+          { path: "order/:id", element: withSuspense(<DriverOrderPage />) },
+        ],
       },
-      {
-        path: ROUTES.driverProfile,
-        element: withSuspense(<DriverProfilePage />),
-      },
-      { path: ROUTES.driverOrder, element: withSuspense(<DriverOrderPage />) },
     ],
   },
 

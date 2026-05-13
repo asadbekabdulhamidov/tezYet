@@ -2,9 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendOtp } from "../../services/auth.service";
 import { formatPhone } from "../../shared/formatPhone";
+import { useAppDispatch } from "../../store/hooks";
+import { setTokens, clearAuth } from "../../store/auth/authSlice";
+
+const DEV_MOCK_TOKENS = {
+  access: "dev-access-token",
+  refresh: "dev-refresh-token",
+} as const;
 
 export default function LoginPage() {
   const nav = useNavigate();
+  const dispatch = useAppDispatch();
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -40,6 +48,18 @@ export default function LoginPage() {
     }
   }
 
+  function devLoginAs(role: "client" | "driver" | "admin") {
+    dispatch(
+      setTokens({
+        ...DEV_MOCK_TOKENS,
+        role,
+      }),
+    );
+    if (role === "client") nav("/", { replace: true });
+    if (role === "driver") nav("/driver", { replace: true });
+    if (role === "admin") nav("/admin", { replace: true });
+  }
+
   return (
     <div className="min-h-dvh bg-slate-50">
       {/* Top bar */}
@@ -59,6 +79,51 @@ export default function LoginPage() {
             <div className="mb-4 rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">
               <div className="text-sm font-semibold">{errTitle}</div>
               <div className="mt-1 text-sm">{err}</div>
+            </div>
+          )}
+
+          {import.meta.env.DEV && (
+            <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-950">
+              <div className="text-xs font-semibold uppercase tracking-wide">
+                Dev — SMSsiz
+              </div>
+              <p className="mt-1 text-xs text-amber-900/90">
+                OTP yuborilmasin: rolni tanlang. Tokenlar mock; API chaqiruvlari
+                401 bersa, baribir UI ko‘rasiz.
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => devLoginAs("client")}
+                  className="rounded-lg bg-amber-600 px-2.5 py-1.5 text-xs font-medium text-white"
+                >
+                  Client
+                </button>
+                <button
+                  type="button"
+                  onClick={() => devLoginAs("driver")}
+                  className="rounded-lg bg-amber-600 px-2.5 py-1.5 text-xs font-medium text-white"
+                >
+                  Driver
+                </button>
+                <button
+                  type="button"
+                  onClick={() => devLoginAs("admin")}
+                  className="rounded-lg bg-amber-600 px-2.5 py-1.5 text-xs font-medium text-white"
+                >
+                  Admin
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    dispatch(clearAuth());
+                    nav("/login", { replace: true });
+                  }}
+                  className="rounded-lg border border-amber-700/40 bg-white px-2.5 py-1.5 text-xs font-medium text-amber-950"
+                >
+                  Chiqish
+                </button>
+              </div>
             </div>
           )}
 

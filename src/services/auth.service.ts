@@ -24,3 +24,7 @@ export async function registerOtp(
   });
   return data as { access: string; refresh: string; role: Role };
 }
+
+export async function logoutApi(refresh: string) {
+  await api.post("/users/auth/logout/", { refresh });
+}

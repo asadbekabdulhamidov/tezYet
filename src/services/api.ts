@@ -1,6 +1,6 @@
 import axios from "axios";
 import { store } from "../store/store";
-import { clearAuth, setTokens } from "../store/auth/authSlice";
+import { clearAuth } from "../store/auth/authSlice";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -24,9 +24,14 @@ api.interceptors.response.use(
     const status = error?.response?.status;
 
     if (status === 401) {
-      // TZ: 401 bo‘lsa login'ga qaytarish va tokenlarni tozalash :contentReference[oaicite:2]{index=2} :contentReference[oaicite:3]{index=3}
-      store.dispatch(clearAuth());
-      window.location.href = "/login";
+      const { accessToken } = store.getState().auth;
+      const skipLogout =
+        import.meta.env.DEV && accessToken === "dev-access-token";
+
+      if (!skipLogout) {
+        store.dispatch(clearAuth());
+        window.location.href = "/login";
+      }
     }
 
     return Promise.reject(error);

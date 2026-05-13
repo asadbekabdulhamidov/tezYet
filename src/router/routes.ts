@@ -9,6 +9,7 @@ export const ROUTES = {
 
   driverHome: "/driver",
   driverHistory: "/driver/history",
+  driverMap: "/driver/map",
   driverProfile: "/driver/profile",
   driverOrder: "/driver/order/:id",
 
