@@ -1,5 +1,1 @@
-function AdminUsersPage() {
-  return <div>AdminUsersPage</div>;
-}
-
-export default AdminUsersPage;
+export { default } from "../../features/admin/pages/AdminUsersPage";

@@ -1,5 +1,1 @@
-function AdminDriversPage() {
-  return <div>AdminDriversPage</div>;
-}
-
-export default AdminDriversPage;
+export { default } from "../../features/admin/pages/AdminDriversPage";

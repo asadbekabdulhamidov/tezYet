@@ -2,7 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { ROUTES } from "./routes";
 import { RoleGuard } from "./RoleGuard";
+import { ProtectedRoute } from "./ProtectedRoute";
 import { DriverLayout } from "../layouts/DriverLayout";
+import { AdminLayout } from "../features/admin/components/AdminLayout";
 import { Loader } from "../shared/ui/Loader";
 
 // --- Lazy pages (default export bo‘lgani uchun shunday) ---
@@ -30,6 +32,9 @@ const AdminHomePage = lazy(() => import("../pages/admin/AdminHomePage"));
 const AdminDriversPage = lazy(() => import("../pages/admin/AdminDriversPage"));
 const AdminUsersPage = lazy(() => import("../pages/admin/AdminUsersPage"));
 const AdminOrdersPage = lazy(() => import("../pages/admin/AdminOrdersPage"));
+const AdminDriverReviewsPage = lazy(
+  () => import("../features/admin/pages/AdminDriverReviewsPage"),
+);
 
 const NotFoundPage = lazy(() => import("../pages/not-found/NotFoundPage"));
 
@@ -83,15 +88,25 @@ export const router = createBrowserRouter([
 
   // Admin
   {
-    element: <RoleGuard allow={["admin"]} />,
+    element: <ProtectedRoute allowedRoles={["admin"]} />,
     children: [
-      { path: ROUTES.adminRoot, element: withSuspense(<AdminHomePage />) },
       {
-        path: ROUTES.adminDrivers,
-        element: withSuspense(<AdminDriversPage />),
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+          { index: true, element: withSuspense(<AdminHomePage />) },
+          {
+            path: "drivers",
+            element: withSuspense(<AdminDriversPage />),
+          },
+          {
+            path: "drivers/:id/reviews",
+            element: withSuspense(<AdminDriverReviewsPage />),
+          },
+          { path: "users", element: withSuspense(<AdminUsersPage />) },
+          { path: "orders", element: withSuspense(<AdminOrdersPage />) },
+        ],
       },
-      { path: ROUTES.adminUsers, element: withSuspense(<AdminUsersPage />) },
-      { path: ROUTES.adminOrders, element: withSuspense(<AdminOrdersPage />) },
     ],
   },
 

@@ -1,5 +1,1 @@
-function AdminOrdersPage() {
-  return <div>AdminOrdersPage</div>;
-}
-
-export default AdminOrdersPage;
+export { default } from "../../features/admin/pages/AdminOrdersPage";

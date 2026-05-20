@@ -1,5 +1,1 @@
-function AdminHomePage() {
-  return <div>AdminHomePage</div>;
-}
-
-export default AdminHomePage;
+export { default } from "../../features/admin/pages/AdminDashboardPage";
