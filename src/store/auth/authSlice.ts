@@ -30,6 +30,10 @@ const authSlice = createSlice({
       state.refreshToken = action.payload.refresh;
       state.role = action.payload.role;
     },
+    setAccessToken(state, action: PayloadAction<string>) {
+      state.isAuth = true;
+      state.accessToken = action.payload;
+    },
     clearAuth(state) {
       state.isAuth = false;
       state.accessToken = null;
@@ -39,5 +43,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setTokens, clearAuth } = authSlice.actions;
+export const { setTokens, setAccessToken, clearAuth } = authSlice.actions;
 export const authReducer = authSlice.reducer;
