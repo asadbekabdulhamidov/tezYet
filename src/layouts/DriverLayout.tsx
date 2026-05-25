@@ -9,7 +9,7 @@ function navLinkClass(isActive: boolean) {
 
 export function DriverLayout() {
   return (
-    <div className="flex min-h-dvh flex-col bg-[#F8F9FA]">
+    <div className="driver-night flex min-h-dvh flex-col bg-[#F8F9FA]">
       <div className="flex-1 pb-[calc(4rem+env(safe-area-inset-bottom))]">
         <Outlet />
       </div>

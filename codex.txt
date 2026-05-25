@@ -1,0 +1,18 @@
+• Keyin davom ettirish uchun shuni yozsangiz yetadi:
+
+  TezYet Taxi loyihasida davom etamiz. Oxirgi holat:
+  - Admin UI/API push qilingan.
+  - Auth token localStorage’dan olib tashlangan, memory-only qilingan.
+  - Client buyurtma flow qo‘shilgan: / orders create, estimate, history, order
+  detail, cancel.
+  - Oxirgi commit: 78735b2 Add client order flow.
+  Endi real backend bilan client -> order create -> driver accept -> client
+  status flow’ni test qilib, kerakli xatolarni tuzatamiz.
+  Avval npm run dev qilib localhostda tekshir, keyin real API response
+  bo‘yicha fix qil.
+
+  Yoki qisqa qilib:
+
+  TezYet Taxi’da davom etamiz: client buyurtma flow real backend bilan test
+  qilinishi kerak. Oxirgi commit 78735b2. Localhostda client -> order create
+  -> driver accept flow’ni tekshir va xatolarni tuzat.

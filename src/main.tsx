@@ -6,6 +6,8 @@ import { store } from "./store/store.ts";
 import { router } from "./router";
 import "./index.css";
 
+document.documentElement.classList.add("app-night");
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>

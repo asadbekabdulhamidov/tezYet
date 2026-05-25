@@ -1,1 +1,156 @@
 @import "tailwindcss";
+
+@layer components {
+  html.app-night,
+  html.app-night body,
+  html.app-night #root {
+    min-height: 100%;
+    background: #070b12;
+    color: #e5edf6;
+  }
+
+  :where(.app-night, .driver-night) {
+    color-scheme: dark;
+    --driver-bg: #070b12;
+    --driver-surface: #101722;
+    --driver-surface-strong: #141d2b;
+    --driver-surface-soft: #0c131d;
+    --driver-border: rgba(148, 163, 184, 0.18);
+    --driver-text: #e5edf6;
+    --driver-muted: #9aa8bb;
+    --driver-faint: #6f7d91;
+    --driver-blue: #64b5ff;
+    --driver-blue-strong: #1f7fd1;
+    --driver-green: #36d27c;
+    --driver-amber: #f6b35e;
+    --driver-red: #ff6b7a;
+    background:
+      radial-gradient(circle at 50% -12rem, rgba(31, 127, 209, 0.18), transparent 32rem),
+      var(--driver-bg);
+    color: var(--driver-text);
+  }
+
+  :where(.app-night, .driver-night) [class~="bg-[#F8F9FA]"],
+  :where(.app-night, .driver-night) .bg-white,
+  :where(.app-night, .driver-night) .bg-white\/95 {
+    background-color: var(--driver-bg) !important;
+  }
+
+  :where(.app-night, .driver-night) header[class*="bg-white"],
+  :where(.app-night, .driver-night) nav[class*="bg-white"] {
+    background-color: rgba(10, 15, 24, 0.94) !important;
+    border-color: var(--driver-border) !important;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.34) !important;
+  }
+
+  :where(.app-night, .driver-night) article[class*="bg-white"],
+  :where(.app-night, .driver-night) section[class*="bg-white"],
+  :where(.app-night, .driver-night) div[class*="bg-white"][class*="rounded"],
+  :where(.app-night, .driver-night) button[class*="bg-white"],
+  :where(.app-night, .driver-night) a[class*="bg-white"],
+  :where(.app-night, .driver-night) table,
+  :where(.app-night, .driver-night) thead[class*="bg-slate"],
+  :where(.app-night, .driver-night) [class~="bg-slate-50"] {
+    background-color: var(--driver-surface) !important;
+    border-color: var(--driver-border) !important;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="bg-slate-100"],
+  :where(.app-night, .driver-night) [class~="bg-slate-200"],
+  :where(.app-night, .driver-night) [class~="bg-slate-300"] {
+    background-color: var(--driver-surface-strong) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="bg-[#0F3460]"] {
+    background-color: var(--driver-blue-strong) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="bg-[#1A6BAC]"] {
+    background-color: #268de0 !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="bg-[#28A745]"] {
+    background-color: #23b766 !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="bg-red-50"] {
+    background-color: rgba(127, 29, 29, 0.35) !important;
+    border-color: rgba(248, 113, 113, 0.35) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="bg-amber-50"] {
+    background-color: rgba(120, 53, 15, 0.34) !important;
+    border-color: rgba(251, 191, 36, 0.35) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="border-slate-50"],
+  :where(.app-night, .driver-night) [class~="border-slate-100"],
+  :where(.app-night, .driver-night) [class~="border-slate-100/80"],
+  :where(.app-night, .driver-night) [class~="border-slate-100/90"],
+  :where(.app-night, .driver-night) [class~="border-slate-200"],
+  :where(.app-night, .driver-night) [class~="border-slate-200/80"],
+  :where(.app-night, .driver-night) [class~="border-slate-200/90"],
+  :where(.app-night, .driver-night) [class~="border-white/70"],
+  :where(.app-night, .driver-night) [class~="border-white/80"] {
+    border-color: var(--driver-border) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="text-[#0F3460]"],
+  :where(.app-night, .driver-night) [class~="text-[#1A6BAC]"],
+  :where(.app-night, .driver-night) [class~="hover:text-[#0F3460]"]:hover {
+    color: var(--driver-blue) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="text-slate-900"],
+  :where(.app-night, .driver-night) [class~="text-slate-800"],
+  :where(.app-night, .driver-night) [class~="text-slate-700"] {
+    color: var(--driver-text) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="text-slate-600"],
+  :where(.app-night, .driver-night) [class~="text-slate-500"] {
+    color: var(--driver-muted) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="text-slate-400"],
+  :where(.app-night, .driver-night) [class~="text-slate-300"] {
+    color: var(--driver-faint) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="text-[#FD7E14]"] {
+    color: var(--driver-amber) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="text-[#DC3545]"],
+  :where(.app-night, .driver-night) [class~="text-red-800"] {
+    color: var(--driver-red) !important;
+  }
+
+  :where(.app-night, .driver-night) [class~="text-amber-950"],
+  :where(.app-night, .driver-night) [class~="text-amber-900"] {
+    color: #ffd89a !important;
+  }
+
+  :where(.app-night, .driver-night) input {
+    background-color: var(--driver-surface-soft) !important;
+    border-color: var(--driver-border) !important;
+    color: var(--driver-text) !important;
+  }
+
+  :where(.app-night, .driver-night) select,
+  :where(.app-night, .driver-night) textarea {
+    background-color: var(--driver-surface-soft) !important;
+    border-color: var(--driver-border) !important;
+    color: var(--driver-text) !important;
+  }
+
+  :where(.app-night, .driver-night) input::placeholder {
+    color: var(--driver-faint);
+  }
+
+  :where(.app-night, .driver-night) td,
+  :where(.app-night, .driver-night) th {
+    border-color: var(--driver-border) !important;
+  }
+}
