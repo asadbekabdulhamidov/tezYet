@@ -10,6 +10,11 @@ import type {
   PaginationResponse,
 } from "../features/admin/lib/types";
 import { normalizeList } from "../features/admin/lib/utils";
+import type {
+  CreateOrderPayload,
+  EstimatePayload,
+  EstimateResult,
+} from "./client-orders.service";
 
 const PAGE_SIZE = 20;
 
@@ -22,7 +27,7 @@ export async function fetchAdminUsers(page = 1): Promise<PaginationResponse<Admi
 
 export async function toggleAdminUserActive(id: number): Promise<AdminUser | null> {
   const { data } = await api.post<AdminUser | null>(
-    `/users/admin/users/${id}/toggle_active/`,
+    `/users/admin/users/${id}/toggle-active/`,
   );
   return data ?? null;
 }
@@ -40,9 +45,10 @@ export async function fetchAdminDrivers(page = 1): Promise<PaginationResponse<Ad
 export async function createAdminDriver(
   payload: CreateDriverPayload,
 ): Promise<AdminDriver> {
+  const { name, ...rest } = payload;
   const { data } = await api.post<AdminDriver>(
     "/users/admin/drivers/create/",
-    payload,
+    { ...rest, full_name: name },
   );
   return data;
 }
@@ -65,6 +71,20 @@ export async function fetchAdminOrders({
     params,
   });
   return normalizeList(data);
+}
+
+export async function createAdminOrder(
+  payload: CreateOrderPayload,
+): Promise<AdminOrder> {
+  const { data } = await api.post<AdminOrder>("/orders/", payload);
+  return data;
+}
+
+export async function estimateAdminOrder(
+  payload: EstimatePayload,
+): Promise<EstimateResult> {
+  const { data } = await api.post<EstimateResult>("/orders/estimate/", payload);
+  return data;
 }
 
 export async function fetchDriverReviews(
